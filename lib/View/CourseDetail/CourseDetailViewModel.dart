@@ -23,6 +23,8 @@ class CourseDetailViewModel with ChangeNotifier{
   String get endDateStr => _endDateStr;
   int _instructorID = 0 ;
   int get instructorID => _instructorID;
+  String _dayOfWeekString = "";
+  String get dayOfWeekString => _dayOfWeekString;
 
   Map<String, dynamic>? _instructorInfo = {};
   Map<String, dynamic>? get instructorInfo => _instructorInfo;
@@ -57,6 +59,11 @@ class CourseDetailViewModel with ChangeNotifier{
 
   void setEndDateStr(String value) {
     _endDateStr = value;
+    notifyListeners();
+  }
+
+  void setDayOfWeekString(String value) {
+    _dayOfWeekString = value;
     notifyListeners();
   }
 
@@ -99,6 +106,29 @@ class CourseDetailViewModel with ChangeNotifier{
     List<Map<String, dynamic>> courses =
         await DatabaseHelper.instance.getCoursesByInstructorId(instructor_id);
     setInstructorCourses(courses);
+
+    String dayOfWeekString = getDayOfWeekString(startDT.weekday);
+    setDayOfWeekString(dayOfWeekString);
   }
 
+  String getDayOfWeekString(int dayOfWeek) {
+  switch (dayOfWeek) {
+    case 1:
+      return '星期一';
+    case 2:
+      return '星期二';
+    case 3:
+      return '星期三';
+    case 4:
+      return '星期四';
+    case 5:
+      return '星期五';
+    case 6:
+      return '星期六';
+    case 7:
+      return '星期日';
+    default:
+      return '';
+  }
+}
 }

@@ -45,6 +45,10 @@ class _CourseDetailViewState extends State<CourseDetailView>{
                   style: TextStyle(fontSize: 28,color: Colors.grey),
                   textAlign: TextAlign.center),
                   const SizedBox(height: 15),
+                  Text(Provider.of<CourseDetailViewModel>(context,listen: true).dayOfWeekString,
+                  style: TextStyle(fontSize: 28,color: Colors.blue),
+                  textAlign: TextAlign.center),
+                  const SizedBox(height: 15),
                   Text("開始時間:" + Provider.of<CourseDetailViewModel>(context,listen: true).startDateStr,
                   style: TextStyle(fontSize: 28,color: Colors.blue),
                   textAlign: TextAlign.center),
@@ -71,10 +75,10 @@ List<Widget> showCourseList(BuildContext context, CourseDetailViewModel model){
   List<Widget> list = [];
 
   list.add(Text("email: " + model.instructorInfo?["email"] ?? "",
-   style: TextStyle(fontSize: 25,color:Color.fromRGBO(192, 192, 192, 1.0)),
+   style: TextStyle(fontSize: 25,color:Colors.grey),
    textAlign: TextAlign.center));
   list.add(Text("phone: " + model.instructorInfo?["phone"] ?? "",
-  style: TextStyle(fontSize: 25,color: Color.fromRGBO(192, 192, 192, 1.0)),
+  style: TextStyle(fontSize: 25,color: Colors.grey),
   textAlign: TextAlign.center));
 
    for (var i = 0; i < courses.length; i++){
@@ -92,34 +96,14 @@ List<Widget> showCourseList(BuildContext context, CourseDetailViewModel model){
     return Row(
       children: [
         SizedBox(width: 18),
-        Icon(icondata,size: 22,color: Color.fromRGBO(192, 192, 192, 1.0)),
+        Icon(icondata,size: 22,color: Colors.grey),
         SizedBox(width: 18),
         Flexible(
           child: Container(
           alignment: Alignment.centerLeft,
-          child: Text(labeltext,style: TextStyle(fontSize: 23,color: Colors.black12),),
+          child: Text(labeltext,style: TextStyle(fontSize: 23,color: Colors.grey),),
         )),
         SizedBox(width: 10),
-        // Container(
-        //   width: 38, // Set the width to make the touch area wider
-        //   height: 38, // Set the height to make the touch area taller
-        //   child: Material(
-        //     color: Color.fromRGBO(192, 192, 192, 1.0), // Set the material color to transparent
-        //     child: InkWell(
-        //       borderRadius: BorderRadius.circular(24), // Set the border radius for a circular shape
-        //       child: Center(
-        //         child: Icon(
-        //           Icons.details,
-        //           size: 22,
-        //           color: Color.fromRGBO(192, 192, 192, 1.0),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        SizedBox(
-          width: 10,
-        ),
       ],
     );
   }
