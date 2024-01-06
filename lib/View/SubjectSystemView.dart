@@ -87,8 +87,9 @@ class _SubjectSystemState extends State<SubjectSystemView> {
     for (var i = 0; i < courses.length; i++){
       Map<String, dynamic> courseInfo = courses[i];
       String courseName = courseInfo["course_name"];
+      bool isSelected = courseInfo["isSelected"];
       print("courseName -> $courseName");
-      Row row = courseRow(Icons.menu_book, courseName);
+      Row row = courseRow(Icons.menu_book, courseName,isSelected: isSelected);
       GestureDetector gesture = GestureDetector(
         child: row,
         onTap: () {
@@ -107,7 +108,7 @@ class _SubjectSystemState extends State<SubjectSystemView> {
 
 
   Row courseRow(IconData icondata, String labeltext,
-      {maxLines = 1}) {
+      {maxLines = 1,isSelected = false}) {
     return Row(
       children: [
         SizedBox(
@@ -139,7 +140,7 @@ class _SubjectSystemState extends State<SubjectSystemView> {
               borderRadius: BorderRadius.circular(24), // Set the border radius for a circular shape
               child: Center(
                 child: Icon(
-                  Icons.details,
+                  isSelected ? Icons.delete:Icons.add,
                   size: 22,
                   color: Colors.grey,
                 ),
