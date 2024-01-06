@@ -15,6 +15,8 @@ void main() async{
     print("資料庫沒有預設的資料");
     await DatabaseHelper.instance.insertDefaultCourses();
     await DatabaseHelper.instance.insertDefaultInstructors();
+    await DatabaseHelper.instance.insertDefaultStudent();
+    // await DatabaseHelper.instance.insertDefaultStudentWithCourse(1);
   }else{
     print("資料庫有預設的資料");
     List<Map<String, dynamic>> course =

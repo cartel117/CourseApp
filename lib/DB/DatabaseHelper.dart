@@ -102,6 +102,40 @@ class DatabaseHelper {
     });
   }
 
+  Future<void> insertDefaultStudent() async {
+    Database db = await database;
+
+    // 插入預設的學生資料
+    await db.transaction((txn) async {
+      var student = {
+        'username': '滷肉飯',
+        'password': '123456',
+        'name': '好吃',
+        'email': 'student.one@example.com',
+        'phone': '555-1234-987',
+      };
+
+      // 插入到學生資料表
+      int studentId = await txn.insert(
+        'Students',
+        student,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      // 插入到學生選課資料表
+      var course = {
+        'student_id': studentId,
+        'course_id': 3,
+      };
+
+      await txn.insert(
+        'StudentCourses',
+        course,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    });
+  }
+
   Future<void> insertDefaultCourses() async {
     Database db = await database;
 
@@ -195,4 +229,15 @@ class DatabaseHelper {
       WHERE InstructorCourses.instructor_id = ?
     ''', [instructorId]);
   }
+
+  Future<List<Map<String, dynamic>>> getStudentCoursesByStudentId(int studentId) async {
+    Database db = await database;
+    return await db.rawQuery('''
+      SELECT StudentCourses.*, InstructorCourses.course_name, InstructorCourses.course_description
+      FROM StudentCourses
+      INNER JOIN InstructorCourses ON StudentCourses.course_id = InstructorCourses.course_id
+      WHERE StudentCourses.student_id = ?
+    ''', [studentId]);
+  }
+
 }

@@ -48,7 +48,7 @@ class _SubjectSystemState extends State<SubjectSystemView> {
                         //   SizedBox(height: 12,),
                         //   courseRow(Icons.menu_book, "test2"),
                         // ],
-                        children: showCourseList(context, Provider.of<SubjectSystemViewModel>(context,
+                        children: showbodyList(context, Provider.of<SubjectSystemViewModel>(context,
                                           listen: true)),
                       ),
                     )),
@@ -58,6 +58,26 @@ class _SubjectSystemState extends State<SubjectSystemView> {
         );
       },
     );
+  }
+
+  List<Widget> showbodyList(BuildContext context, SubjectSystemViewModel model) {
+    List<Widget> list = showCourseList(context, model);
+    list.add(Divider(height: 0.0,color: Color.fromRGBO(178, 180, 182, 1)));
+    list.add(SizedBox(height: 8));
+    Text text = Text("你目前的選課如下 :",style: TextStyle(fontSize: 28,color: Colors.black),textAlign: TextAlign.center);
+    list.add(text);
+    list.add(SizedBox(height: 10));
+
+    List<Map<String, dynamic>> selectedCourses = model.selectedStudentCourses;
+    for (var i = 0; i < selectedCourses.length; i++){
+      Map<String, dynamic> courseInfo = selectedCourses[i];
+      String courseName = courseInfo["course_name"];
+      Row row = selectedCourseRow(Icons.calendar_month, courseName);
+      list.add(row);
+      list.add(SizedBox(height: 12));
+      }
+      
+    return list;
   }
 
   List<Widget> showCourseList(BuildContext context, SubjectSystemViewModel model) {
@@ -132,6 +152,21 @@ class _SubjectSystemState extends State<SubjectSystemView> {
         SizedBox(
           width: 10,
         ),
+      ],
+    );
+  }
+
+    Row selectedCourseRow(IconData icondata, String labeltext,{maxLines = 1}) {
+    return Row(
+      children: [
+        SizedBox(width: 18),
+        Icon(icondata,size: 22,color: Colors.grey),
+        SizedBox(width: 18),
+        Flexible(
+          child: Container(
+          alignment: Alignment.centerLeft,
+          child: Text(labeltext,style: TextStyle(fontSize: 23,color: Colors.black),),
+        )),
       ],
     );
   }

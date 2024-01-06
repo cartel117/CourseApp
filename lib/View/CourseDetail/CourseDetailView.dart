@@ -124,3 +124,4 @@ List<Widget> showCourseList(BuildContext context, CourseDetailViewModel model){
     );
   }
 }
+
