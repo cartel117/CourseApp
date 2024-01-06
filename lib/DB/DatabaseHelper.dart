@@ -239,5 +239,28 @@ class DatabaseHelper {
       WHERE StudentCourses.student_id = ?
     ''', [studentId]);
   }
+  
+  Future<void> deleteStudentCourse(int studentId, int courseId) async {
+    Database db = await database;
+    await db.delete(
+      'StudentCourses',
+      where: 'student_id = ? AND course_id = ?',
+      whereArgs: [studentId, courseId],
+    );
+  }
+
+  Future<void> insertStudentCourse(int studentId, int courseId) async {
+    Database db = await database;
+    var course = {
+      'student_id': studentId,
+      'course_id': courseId,
+    };
+
+    await db.insert(
+      'StudentCourses',
+      course,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
 
 }

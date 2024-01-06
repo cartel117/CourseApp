@@ -17,7 +17,39 @@ class SubjectSystemViewModel with ChangeNotifier{
     initData();
   }
 
-  void initData() async{
+  void initData() {
+    updateCourseViewData();
+  }
+
+  void setCourses(List<Map<String, dynamic>> value) {
+    _courses = value;
+    notifyListeners();
+  }
+
+  void setSelectedStuSdentCourses(List<Map<String, dynamic>> value) {
+    _selectedStudentCourses = value;
+    notifyListeners();
+  }
+
+  Future<List<Map<String, dynamic>>> getCourses() async{
+      // 讀取課程資料
+  List<Map<String, dynamic>> course =
+      await DatabaseHelper.instance.getDefaultInstructorCourses();
+      // setCourses(course);
+      return course;
+  }
+
+  void deleteStudentCourse(int courseID) async{
+    await DatabaseHelper.instance.deleteStudentCourse(1,courseID);
+    await updateCourseViewData();
+  }
+
+   void addStudentCourse(int courseID) async{
+    await DatabaseHelper.instance.insertStudentCourse(1,courseID);
+    await updateCourseViewData();
+  }
+
+  Future<void> updateCourseViewData() async{
     List<Map<String, dynamic>> defalutCourses = await getCourses();
     List<Map<String, dynamic>> copiedList = [];
   
@@ -45,27 +77,7 @@ class SubjectSystemViewModel with ChangeNotifier{
           break; // No need to continue searching for this defaultCourse
           }}
     }
-    print("copiedList ->$copiedList");
     setCourses(copiedList);
-
-  }
-
-  void setCourses(List<Map<String, dynamic>> value) {
-    _courses = value;
-    notifyListeners();
-  }
-
-  void setSelectedStuSdentCourses(List<Map<String, dynamic>> value) {
-    _selectedStudentCourses = value;
-    notifyListeners();
-  }
-
-  Future<List<Map<String, dynamic>>> getCourses() async{
-      // 讀取課程資料
-  List<Map<String, dynamic>> course =
-      await DatabaseHelper.instance.getDefaultInstructorCourses();
-      // setCourses(course);
-      return course;
   }
 
 }

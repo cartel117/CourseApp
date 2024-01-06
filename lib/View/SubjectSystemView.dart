@@ -88,8 +88,9 @@ class _SubjectSystemState extends State<SubjectSystemView> {
       Map<String, dynamic> courseInfo = courses[i];
       String courseName = courseInfo["course_name"];
       bool isSelected = courseInfo["isSelected"];
+      int courseID = courseInfo["course_id"];
       print("courseName -> $courseName");
-      Row row = courseRow(Icons.menu_book, courseName,isSelected: isSelected);
+      Row row = courseRow(Icons.menu_book, courseName,model,courseID,isSelected: isSelected);
       GestureDetector gesture = GestureDetector(
         child: row,
         onTap: () {
@@ -107,7 +108,7 @@ class _SubjectSystemState extends State<SubjectSystemView> {
   }
 
 
-  Row courseRow(IconData icondata, String labeltext,
+  Row courseRow(IconData icondata, String labeltext, SubjectSystemViewModel model, int courseID,
       {maxLines = 1,isSelected = false}) {
     return Row(
       children: [
@@ -146,6 +147,7 @@ class _SubjectSystemState extends State<SubjectSystemView> {
                 ),
               ),
               onTap: () {
+                isSelected ? model.deleteStudentCourse(courseID):model.addStudentCourse(courseID);
               },
             ),
           ),
