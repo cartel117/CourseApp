@@ -1,12 +1,12 @@
 class ApiBase {
   final String status; // "ok", "timeout", "error"
   final int statusCode; // 200, 500
-  dynamic data;
+  dynamic message;
 
   ApiBase({
     required this.status,
     required this.statusCode,
-    this.data,
+    this.message,
   });
 
   // Factory constructor for creating an instance from JSON
@@ -14,7 +14,7 @@ class ApiBase {
     return ApiBase(
       status: json['status'] ?? "",
       statusCode: json['statusCode'] ?? 404,
-      data: json['data'],
+      message: json['data'],
     );
   }
 
@@ -22,6 +22,6 @@ class ApiBase {
   Map<String, dynamic> toJson() => {
         'status': status,
         'statusCode': statusCode,
-        'data': data,
+        'data': message,
       };
 }
