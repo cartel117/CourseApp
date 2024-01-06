@@ -185,4 +185,14 @@ class DatabaseHelper {
 
     return result.isNotEmpty ? result.first : null;
   }
+
+  Future<List<Map<String, dynamic>>> getCoursesByInstructorId(int instructorId) async {
+    Database db = await database;
+    return await db.rawQuery('''
+      SELECT InstructorCourses.*, Instructors.name as instructor_name
+      FROM InstructorCourses
+      INNER JOIN Instructors ON InstructorCourses.instructor_id = Instructors.instructor_id
+      WHERE InstructorCourses.instructor_id = ?
+    ''', [instructorId]);
+  }
 }

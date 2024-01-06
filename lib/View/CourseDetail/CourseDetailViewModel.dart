@@ -27,6 +27,9 @@ class CourseDetailViewModel with ChangeNotifier{
   Map<String, dynamic>? _instructorInfo = {};
   Map<String, dynamic>? get instructorInfo => _instructorInfo;
 
+  List<Map<String, dynamic>> _instructorCourses = [];
+  List<Map<String, dynamic>> get instructorCourses => _instructorCourses;
+
   void setCourseName(String value) {
     _courseName = value;
     notifyListeners();
@@ -67,6 +70,11 @@ class CourseDetailViewModel with ChangeNotifier{
     notifyListeners();
   }
 
+  void setInstructorCourses(List<Map<String, dynamic>> value) {
+    _instructorCourses = value;
+    notifyListeners();
+  }
+
   void initData() async{
     String courseName = courseInfo["course_name"];
     String courseDescription = courseInfo["course_description"];
@@ -86,6 +94,11 @@ class CourseDetailViewModel with ChangeNotifier{
     Map<String, dynamic>? specifiedInstructor =
       await DatabaseHelper.instance.getInstructorById(instructor_id);
     setInstructorInfo(specifiedInstructor);
+
+    // 取得指定 instructor_id 的講師所教的課程
+    List<Map<String, dynamic>> courses =
+        await DatabaseHelper.instance.getCoursesByInstructorId(instructor_id);
+    setInstructorCourses(courses);
   }
 
 }

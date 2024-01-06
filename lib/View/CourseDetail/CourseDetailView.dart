@@ -53,8 +53,10 @@ class _CourseDetailViewState extends State<CourseDetailView>{
                   style: TextStyle(fontSize: 28,color: Colors.blue),
                   textAlign: TextAlign.center),
                   const SizedBox(height: 15),
-                  Text("講師姓名:" + Provider.of<CourseDetailViewModel>(context,listen: true).instructorInfo?["username"] ?? "",
-                  style: TextStyle(fontSize: 28,color: Colors.blue),textAlign: TextAlign.center),
+                  ExpansionTile(
+                    title: Text("講師姓名:" + Provider.of<CourseDetailViewModel>(context,listen: true).instructorInfo?["username"] ?? "",
+                  style: TextStyle(fontSize: 28,color: Colors.grey),textAlign: TextAlign.center),
+                    children: showCourseList(context, Provider.of<CourseDetailViewModel>(context,listen: true))),
                 ],
               )),
             ],
@@ -64,47 +66,57 @@ class _CourseDetailViewState extends State<CourseDetailView>{
     );
   }
 
+List<Widget> showCourseList(BuildContext context, CourseDetailViewModel model){
+  List<Map<String, dynamic>> courses = model.instructorCourses;
+  List<Widget> list = [];
+
+  list.add(Text("email: " + model.instructorInfo?["email"] ?? "",
+   style: TextStyle(fontSize: 25,color:Color.fromRGBO(192, 192, 192, 1.0)),
+   textAlign: TextAlign.center));
+  list.add(Text("phone: " + model.instructorInfo?["phone"] ?? "",
+  style: TextStyle(fontSize: 25,color: Color.fromRGBO(192, 192, 192, 1.0)),
+  textAlign: TextAlign.center));
+
+   for (var i = 0; i < courses.length; i++){
+      Map<String, dynamic> courseInfo = courses[i];
+      String courseName = courseInfo["course_name"];
+      Row row = courseRow(Icons.calendar_month_outlined, courseName);
+      list.add(row);
+      list.add(SizedBox(height: 12));
+    }
+
+    return list;
+}
+
   Row courseRow(IconData icondata, String labeltext,{maxLines = 1}) {
     return Row(
       children: [
-        SizedBox(
-          width: 18,
-        ),
-        Icon(
-          icondata,
-          size: 22,
-          color: Color.fromRGBO(120, 120, 120, 1),
-        ),
-        SizedBox(
-          width: 18,
-        ),
+        SizedBox(width: 18),
+        Icon(icondata,size: 22,color: Color.fromRGBO(192, 192, 192, 1.0)),
+        SizedBox(width: 18),
         Flexible(
-            child: Container(
+          child: Container(
           alignment: Alignment.centerLeft,
-          child: Text(labeltext,style: TextStyle(fontSize: 23,color: Colors.black),),
+          child: Text(labeltext,style: TextStyle(fontSize: 23,color: Colors.black12),),
         )),
-        SizedBox(
-          width: 10,
-        ),
-        Container(
-          width: 38, // Set the width to make the touch area wider
-          height: 38, // Set the height to make the touch area taller
-          child: Material(
-            color: Colors.transparent, // Set the material color to transparent
-            child: InkWell(
-              borderRadius: BorderRadius.circular(24), // Set the border radius for a circular shape
-              child: Center(
-                child: Icon(
-                  Icons.details,
-                  size: 22,
-                  color: Colors.grey,
-                ),
-              ),
-              onTap: () {
-              },
-            ),
-          ),
-        ),
+        SizedBox(width: 10),
+        // Container(
+        //   width: 38, // Set the width to make the touch area wider
+        //   height: 38, // Set the height to make the touch area taller
+        //   child: Material(
+        //     color: Color.fromRGBO(192, 192, 192, 1.0), // Set the material color to transparent
+        //     child: InkWell(
+        //       borderRadius: BorderRadius.circular(24), // Set the border radius for a circular shape
+        //       child: Center(
+        //         child: Icon(
+        //           Icons.details,
+        //           size: 22,
+        //           color: Color.fromRGBO(192, 192, 192, 1.0),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SizedBox(
           width: 10,
         ),
