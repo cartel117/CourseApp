@@ -1,3 +1,3 @@
 class ApiCollection {
-    static String login = "/login";
+    static String login = "/courseList";
 }
