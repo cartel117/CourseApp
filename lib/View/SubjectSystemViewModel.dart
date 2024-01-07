@@ -51,6 +51,7 @@ class SubjectSystemViewModel with ChangeNotifier{
 
   Future<void> updateCourseViewData() async{
     List<Map<String, dynamic>> defalutCourses = await getCourses();
+    print("defalutCourses ->$defalutCourses");
     List<Map<String, dynamic>> copiedList = [];
   
     for (var i = 0; i < defalutCourses.length; i++){
@@ -60,10 +61,11 @@ class SubjectSystemViewModel with ChangeNotifier{
       newCourse["course_id"] = courseInfo["course_id"];
       newCourse["instructor_id"] = courseInfo["instructor_id"];
       newCourse["course_description"] = courseInfo["course_description"];
-      newCourse["start_date"] = courseInfo["start_date"];
-      newCourse["end_date"] = courseInfo["end_date"];
+      newCourse["start_date"] = courseInfo["start_date"].toString();
+      newCourse["end_date"] = courseInfo["end_date"].toString();
       newCourse["isSelected"] = false;
       copiedList.add(newCourse);
+      print("newCourse ->$newCourse");
       }
 
     // 取得該學生選得課程
